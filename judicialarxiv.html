@@ -1,0 +1,469 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+  	<link rel="icon" href="blank.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="National arXiv is an experimental search engine for the National Assembly Debates archives of Pakistan.">
+	<meta name="keywords" content="National Assembly of Pakistan">
+	<meta  property="og:description" content="National arXiv is an experimental search engine for the National Assembly Debates archives of Pakistan.">
+	<meta property="og:title" content="National arXiv"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>	
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" href="bsstylesheet.css">
+	<link rel="stylesheet" type="text/css" href="http://www.visitednationalparks.com/bsstylesheet.css">
+	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/p_counter.json' as="document">
+	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_words/main/date_mapping.json' as="document">
+	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/tag_list.json' as="document">
+	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/similarity_scores_.json' as="document">
+	
+	
+	
+	
+    <title>National arXiv</title>
+  </head>
+  <body  class="pt-5">
+
+
+		<!--Navigation bar-->
+		<div id="navbar">
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #FFCD00">
+
+			  <div class="container">
+				<a class="navbar-brand" style="color: #000000" href="http://osamakhalid.org/home.html">
+					Osama Khalid
+				</a>
+
+			  </div>
+			</nav>
+
+
+		</div>
+		<!--end of Navigation bar-->
+
+<div class="container">
+	<div class="jumbotron">
+		<div class="row  justify-content-center mt-5">
+			<div class="col-md-6 text-center">
+				<h1 class="text-center">National arXiv</h1>
+			</div>
+		</div>
+		<div class="row  justify-content-center mt-2">
+			<div class="col-md-5 text-center">
+				<h5 class="text-center"><b>National arXiv</b> is an experimental search engine for the <a target="_blank" href="https://na.gov.pk/en/debates.php">National Assembly</a> Debates archives of Pakistan.</h5>
+				<h6 class="text-center">Currently covering: 1947-2022</h6>
+			</div>
+		</div>
+	
+		<div class="row  justify-content-center mt-3">
+			<div class="col-md-6 text-center">
+				<p class="text-center"><b>Note:</b> For feedback please contact <a target="_blank" href="https://twitter.com/osamakhalyd">me</a></p>
+			</div>
+		</div>
+		
+		<div class="row  justify-content-center mt-5">
+			<div class="col-md-4 text-center">
+				<div class="input-group">
+				  <input type="search" id="token" class="form-control rounded" placeholder="Search"  onclick="search_word(value)"/>
+				  <label for="token"  class="btn btn-outline-primary">Look Up</label>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row  justify-content-center mt-3">
+			<div class="col-md-6 text-center">
+				<p class="text-center" id="search_term"></p>
+			</div>
+		</div>
+
+		<div class="row  justify-content-center mt-5">
+			<div class="col-md-6 text-center" id="sorting_button">
+			</div>
+		</div>
+		
+		<div class="row  justify-content-center mt-5">
+			<div class="col-md-10 text-center">		
+				<div id="display_table">
+				</div>
+			</div>
+		</div>
+	
+<script>
+
+function loadData(){
+    loadMap();
+    pageMap();
+    tagMap();
+    similarityScores();
+}
+intersectSets = (a, b) => {
+    const c = new Set;
+    a.forEach(v => b.has(v) && c.add(v));
+    return c;
+};
+
+function sortObj(obj) {
+    // Sort object as list based on values
+    return Object.keys(obj).map(k => ([k, obj[k]])).sort((a, b) => (b[1] - a[1]))
+}
+function httpGet(theUrl)
+    {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+    }
+function pageMap(){
+    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/p_counter.json';
+    pagemap = {}    
+    var allText= httpGet(url);
+    var allJSON=JSON.parse(allText);
+    for (item in allJSON){
+        if (typeof item !== 'undefined') {
+            pagemap[item]=allJSON[item]
+        }
+    }
+    globalThis.pagemap = pagemap;
+
+}
+
+function tagMap(){
+    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/tag_list.json';
+    tagmap = {}    
+    var allText= httpGet(url);
+    var allJSON=JSON.parse(allText);
+    for (item in allJSON){
+        if (typeof item !== 'undefined') {
+            tagmap[item.replace('Augus','August').replace('Marc','March')]=allJSON[item]
+        }
+    }
+    globalThis.tagmap = tagmap;
+
+}
+
+
+
+function similarityScores(){
+    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/similarity_scores_.json';
+    similarity_score = {}    
+    var allText= httpGet(url);
+    var allJSON=JSON.parse(allText);
+    for (item in allJSON){
+        if (typeof item !== 'undefined') {
+            similar_list = []
+            for (value in allJSON[item])
+            {
+                session = allJSON[item][value][0]
+                session_new = session.replace('Augus','August').replace('Marc','March')
+                url = mapping[session_new]
+                similar_list.push([session_new,url])
+            }
+            similarity_score[item.replace('Augus','August').replace('Marc','March')]=similar_list
+        }
+    }
+    globalThis.similarity_score = similarity_score;
+
+}
+
+function loadMap(){
+    var url='https://raw.githubusercontent.com/osama-website/_NA_words/main/date_mapping.json';
+    mapping = {}    
+    var allText= httpGet(url);
+    var allJSON=JSON.parse(allText);
+    for (item in allJSON){
+        if (typeof item !== 'undefined') {
+            mapping[item]=allJSON[item]
+        }
+    }
+    globalThis.mapping = mapping;
+    //return mapping
+}
+
+function search_word(elem){
+    if(elem.length == 0){
+		return
+	}
+    words = words = elem.toLowerCase().split(' ')
+    document.getElementById("search_term").innerHTML="Showing Results for:"+"<b> "+elem+"</b>"
+    document.getElementById("token").value=elem
+
+    stemmed_words = stemmer(words);
+    ranking = ranked_lookup(stemmed_words);
+
+	sorting_button = document.getElementById("sorting_button")
+	sorting_button.innerHTML = ''
+	
+	if(ranking == undefined){
+		table_div = document.getElementById("display_table")
+		table_div.innerHTML = ''
+		return;
+	}
+
+
+	var relevance = document.createElement("button");
+	relevance.setAttribute("id", "relevance");
+	relevance.setAttribute("type", "button");
+	relevance.setAttribute("class", "btn btn-primary");    
+	relevance.textContent = "Relevance";
+	relevance.onclick = function()
+	{
+		display_default(ranking, mapping, "default")
+	}
+	sorting_button.appendChild(relevance)
+
+	var oldest = document.createElement("button");
+	oldest.setAttribute("id", "oldest");
+	oldest.setAttribute("type", "button");
+	oldest.setAttribute("class", "btn btn-primary");    
+	oldest.textContent = "Oldest"; 
+	oldest.onclick = function()
+	{
+		display_default(ranking, mapping, "oldest")
+	}
+	sorting_button.appendChild(oldest)
+	
+	var newest = document.createElement("button");
+	newest.setAttribute("id", "newest");
+	newest.setAttribute("type", "button");
+	newest.setAttribute("class", "btn btn-primary");    
+	newest.textContent = "Newest"; 
+	newest.onclick = function()
+	{
+		display_default(ranking, mapping, "newest")
+	}
+	sorting_button.appendChild(newest)
+    display_default(ranking, mapping, "default")
+}
+
+function display_default(ranking, mapping, ordering){
+	var sorting_order = {"default":0, "oldest":2, "newest":1}
+	table_div = document.getElementById("display_table")
+	table_div.innerHTML = ''
+
+	var display_table = document.createElement('table');
+
+	let table_head = ["Rank", "Session", "Pages", "Tags", "Similar Sessions"];
+	
+	display_table.setAttribute("class", "table");
+	let thead = display_table.createTHead();
+	let row = thead.insertRow();
+	for (let i = 0; i < table_head.length; i++) {
+		let th = document.createElement("th");
+		let text = document.createTextNode(table_head[i]);
+			th.appendChild(text);
+			row.appendChild(th);
+	}
+
+	ranking_index = sorting_order[ordering]
+    for (i=0;i<Math.min(ranking[ranking_index].length, 1000);i++){
+        session = ranking[ranking_index][i][0].split('\t')[0].replace('Augus','August').replace('Marc','March')
+        page = ranking[3][ranking[ranking_index][i][0]]
+  
+        page.sort((a,b) => a-b);
+        summary = 'TO-DO'
+        
+
+        url = mapping[session]
+
+		let row = display_table.insertRow();
+		row.setAttribute('class',"align-top")
+
+		let rank_cell = row.insertCell();
+		let rank_text = document.createTextNode(i+1);
+		rank_cell.appendChild(rank_text);
+		
+		let session_cell = row.insertCell();
+	
+		var session_text = document.createElement('a');
+		session_text.setAttribute('href', url);         
+		session_text.textContent = session;    
+		session_cell.appendChild(session_text);
+
+        let page_cell = row.insertCell();
+        for (k=0;k< page.length; k++){
+			let page_text = document.createElement('a');
+			page_url = url+'#page='+page[k]
+			page_text.setAttribute('href', page_url);         
+			page_text.textContent = page[k];  
+			page_cell.appendChild(page_text);
+			let space = document.createTextNode(" ");
+			page_cell.appendChild(space);
+        }
+		
+		
+        tag_session = tagmap[session]
+		let tag_cell = row.insertCell();
+        for (k=0;k< tag_session.length; k++){
+			let tag_session_text = document.createElement('a');
+			tag_session_text.setAttribute('href', "#");
+			
+			tag_session_text.setAttribute("onclick", 'search_word('+"'"+tag_session[k]+"'"+')');			
+			tag_session_text.textContent = tag_session[k];  
+			tag_cell.appendChild(tag_session_text);
+			let space = document.createTextNode(" ");
+			tag_cell.appendChild(space);
+        } 
+
+        similar_session = similarity_score[session]
+
+        let similar_session_cell = row.insertCell();
+        for (k=0;k<similar_session.length;k++){
+			let similar_session_text = document.createElement('a');
+			page_url = similar_session[k][1]
+			similar_session_text.setAttribute('href', page_url);         
+			similar_session_text.textContent = similar_session[k][0];  
+			similar_session_cell.appendChild(similar_session_text);
+			let space = document.createTextNode(" ");
+			similar_session_cell.appendChild(space);
+        }
+		
+    }
+	table_div.appendChild(display_table)
+}
+
+let pagemap={};
+function ranked_lookup(words){
+    idx_keys = []
+    for (i in words){
+        key = words[i].slice(0,3);
+        idx_keys.push(key);
+    }
+    var idx_set = new Set(idx_keys);
+    idx_set = Array.from(idx_set);
+
+
+    var idx_dict = {}
+
+    for (i in idx_set){
+        key = idx_set[i]
+        var url='https://raw.githubusercontent.com/osama-website/_NA_idx/master/'+key+'.json';
+        var allText= httpGet(url);
+        var allJSON=JSON.parse(allText);
+        for (k in words){
+            item = words[k]
+            
+            if (typeof allJSON[item] !== 'undefined') {
+                
+                json_set = []
+                for (j in allJSON[item]){
+                    date = allJSON[item][j][0]
+                    page = allJSON[item][j][1].toString()
+                    json_set.push(date+'\t'+page)
+
+                }
+                var json_set = new Set(json_set);
+                json_set = Array.from(json_set);
+                idx_dict[item] = json_set;
+            }
+        }
+    }
+
+    // Recalc total overalp page per date / pagempa[i]
+    //Intersection
+    months = {'January':'01', 'February':'02', 'Marc':'03', 'April':'04', 'May':'05', 'June':'06', 'July':'07', 'Augus':'08', 'September':'09', 'October':'10', 'November':'11', 'December':'12'}
+    ranker_rel = {}
+    ranker_chrono = {}
+
+	// Load all the data first
+    if(typeof pagemap !== 'undefined' || pagemap.length ==0 ){
+		loadData();
+	}
+	
+    if (words.length > 0){
+        a = new Set(idx_dict[words[0]])
+            
+        for (i = 1;i<words.length; i++){
+            b = new Set(idx_dict[words[i]])
+            a = [a,b].reduce(intersectSets);
+        }
+		intersections = Array.from(a);    
+		page_counter = {}
+		page_track = {}
+		if (intersections.length>2){
+			for (i in intersections){
+				item = intersections[i].split('\t');
+				date = item[0]
+				if (typeof page_counter[date] == 'undefined') {
+					page_counter[date] = 0
+					page_track[date] = []
+				}
+				page_track[date].push(item[1])
+				page_counter[date] = page_counter[date] + 1
+
+			}
+
+			ranker_rel = {}
+			for (date in page_counter){
+				ranker_rel[date] = page_counter[date]/pagemap[date]
+				//console.log(date,page_counter[date],pagemap[date])
+				date_ = date.split('-')
+				yr = date_[2]
+				mnt = months[date_[1]]
+				day = date_[0].substring(0,1)
+
+
+				while(day.length<2){
+					day = '0'+day
+				}
+
+				ranker_chrono[date] = yr+mnt+day
+			}
+
+			var rank_default = sortObj(ranker_rel);
+			var rank_chrono = sortObj(ranker_chrono);
+			var rank_rev_chrono = sortObj(ranker_chrono).reverse();
+			return([rank_default,rank_chrono,rank_rev_chrono,page_track])
+		}
+   
+    }
+    else
+    {
+        return        
+    }
+    
+}
+
+function stemmer(words) {
+    word_keys = []
+    // Get first letters of words
+    for (i in words){
+        key = words[i][0];
+        //console.log(key)
+        if (typeof key !== 'undefined') {
+            if(key.charCodeAt(0) >= 'a'.charCodeAt(0) && key.charCodeAt(0) <= 'z'.charCodeAt(0)) {
+                word_keys.push(key);    
+            }
+        }
+    }
+    //console.log(word_keys)
+    //Get Unique Words
+    var word_keys_set = new Set(word_keys);
+    word_keys_set = Array.from(word_keys_set);
+    // get URLS
+    word_set = []
+    var word_dict = {}
+    for (i in word_keys_set){
+        key = word_keys_set[i]
+        var url='https://raw.githubusercontent.com/osama-website/_NA_words/main/'+key+'.json';
+        var allText= httpGet(url);
+        var allJSON=JSON.parse(allText);
+        for (item in allJSON){
+            if (words.includes(item)){ 
+                word_set.push(allJSON[item]);
+            }
+        }
+    }
+    //console.log(words)
+    //console.log(word_set)
+    return(word_set)
+};
+
+</script>
+
+    
+  </body>
+</html>
+
