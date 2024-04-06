@@ -1,1 +1,1 @@
-{"lda": ["ztbl", "nbp", "wapda", "naqi", "rda", "auqaf", "mepco", "wwb", "sngpl", "sarhad"], "ldc": ["alm", "lecturer", "asi", "typist", "headmistress", "aao", "ls", "overage", "wager", "samra"]}
+{"lda": {"sarhad": 0.665, "wwb": 0.662, "ztbl": 0.66, "tevta": 0.639, "adbp": 0.634, "kpt": 0.62, "dated": 0.604, "aeroflot": 0.604, "livestock": 0.603, "managing": 0.602}, "ldc": {"aeo": 0.792, "alm": 0.742, "digp": 0.742, "sepoy": 0.732, "typist": 0.73, "overage": 0.725, "bahadurabad": 0.714, "aao": 0.71, "lance": 0.706, "mudassir": 0.701}}

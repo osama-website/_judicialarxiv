@@ -1,1 +1,1 @@
-{"hbl": ["ubl", "pak", "abl", "atacama", "psm", "nbp", "usml", "nfc", "steel", "nha"], "hbj": ["osama", "attiya", "maher", "habibullah", "fatah", "surat", "manchhar", "ah", "francis", "opp"]}
+{"hbl": {"ubl": 0.686, "pak": 0.684, "abl": 0.677, "pepco": 0.668, "wapda": 0.667, "nfc": 0.646, "psm": 0.643, "usml": 0.642, "ptv": 0.64, "gulf": 0.632}, "hbj": {"kutub": 0.756, "norway": 0.754, "aug": 0.753, "fikr": 0.753, "jaber": 0.75, "bull": 0.75, "lass": 0.75, "abdallah": 0.746, "tabari": 0.746, "shahzaib": 0.746}}

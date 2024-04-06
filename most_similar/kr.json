@@ -1,1 +1,1 @@
-{"krishna": ["nath", "prasad", "mehta", "shri", "das", "sajjan", "pandey", "reddy", "narain", "kishore"], "krishan": ["utman", "supl", "pardesh", "prem", "zaki", "sibnath", "maharaj", "nakara", "nain", "gulab"]}
+{"krishna": {"nath": 0.92, "mehta": 0.895, "narain": 0.881, "pandey": 0.877, "shetty": 0.875, "prasad": 0.872, "thafaz": 0.871, "kishore": 0.87, "hossain": 0.868, "das": 0.868}, "krishan": {"saksena": 0.921, "wadhwa": 0.918, "swamiar": 0.917, "pillai": 0.917, "prem": 0.916, "narayan": 0.915, "abbott": 0.914, "phulphoto": 0.913, "bozdar": 0.911, "thirtha": 0.911}}

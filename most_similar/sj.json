@@ -1,1 +1,1 @@
-{"sjc": ["council", "ecp", "committee", "fgcm", "commission", "cci", "president", "parliament", "enquiry", "ccp"], "sjit": ["dofc", "cid", "casc", "loralai", "kharootabad", "sip", "fortnightly", "ct", "dro", "pfsa"]}
+{"sjc": {"council": 0.578, "committee": 0.535, "ecp": 0.513, "parliament": 0.498, "president": 0.497, "jit": 0.481, "speaker": 0.473, "nirc": 0.463, "secp": 0.453, "fbr": 0.45}, "sjit": {"fortnightly": 0.625, "incisive": 0.616, "ibms": 0.61, "cpo": 0.607, "pamela": 0.6, "cid": 0.6, "dro": 0.592, "duniya": 0.589, "correspondent": 0.588, "kharootabad": 0.584}}

@@ -1,1 +1,1 @@
-{"lhc": ["phc", "swat", "bahawalpur", "razak", "abbottabad", "dc", "thar", "lee", "bas", "aea"], "lhr": ["anand", "pillai", "morgan", "lee", "minn", "thomson", "chenab", "shahi", "naeema", "thal"]}
+{"lhc": {"phc": 0.778, "bahawalpur": 0.669, "abbottabad": 0.629, "dar": 0.614, "mingora": 0.613, "qaza": 0.603, "bannu": 0.598, "sukkar": 0.597, "swat": 0.596, "multan": 0.588}, "lhr": {"chittagong": 0.883, "godfrey": 0.842, "saksena": 0.841, "samoo": 0.835, "naeema": 0.834, "jibendra": 0.833, "carter": 0.83, "chenab": 0.829, "mollah": 0.828, "abbott": 0.825}}

@@ -1,1 +1,1 @@
-{"mst": ["bibi", "bakhsh", "mohri", "decease", "maternal", "nasreen", "zahida", "consanguine", "khuda", "imam"], "msc": ["hrm", "nandla", "ammar", "ja", "eshaq", "apron", "sharafi", "kharadar", "bhullay", "shaista"]}
+{"mst": {"decease": 0.695, "bibi": 0.69, "bakhsh": 0.69, "mohri": 0.685, "widow": 0.675, "nasreen": 0.659, "uncle": 0.656, "laila": 0.654, "maternal": 0.649, "tuba": 0.643}, "msc": {"manzil": 0.876, "wassan": 0.866, "ki": 0.863, "nano": 0.86, "mohallah": 0.857, "ma": 0.856, "romania": 0.855, "gah": 0.854, "ext": 0.852, "ansbacher": 0.851}}

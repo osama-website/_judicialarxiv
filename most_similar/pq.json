@@ -1,1 +1,1 @@
-{"pqa": ["redemption", "vendee", "mortgage", "landowner", "buyer", "delivery", "pta", "dower", "compensation", "usml"]}
+{"pqa": {"redemption": 0.522, "wchs": 0.483, "cos": 0.467, "compensation": 0.463, "interpleader": 0.44, "mortgage": 0.436, "sersaya": 0.434, "transferee": 0.434, "landowner": 0.434, "refund": 0.426}}

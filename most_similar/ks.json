@@ -1,1 +1,1 @@
-{"ksa": ["bonn", "embassy", "makkah", "sharqpur", "bhaki", "airspace", "chowk", "pipri", "belgium", "iran"]}
+{"ksa": {"embassy": 0.684, "airspace": 0.605, "afghanistan": 0.58, "bhaki": 0.574, "siemens": 0.571, "makkah": 0.571, "denmark": 0.57, "arabian": 0.567, "pasrur": 0.566, "beijing": 0.562}}

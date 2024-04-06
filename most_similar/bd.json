@@ -1,1 +1,1 @@
-{"bda": ["gob", "bhp", "caa", "cda", "secp", "tcc", "etpb", "gop", "mda", "sponsor"], "bds": ["mbbs", "internship", "bachelor", "centralized", "postgraduate", "bsc", "undergraduate", "syllabus", "graduate", "matric"]}
+{"bda": {"gob": 0.792, "bhp": 0.723, "tcc": 0.684, "cda": 0.658, "secp": 0.633, "caa": 0.621, "etpb": 0.609, "gop": 0.581, "pemra": 0.564, "ssgcl": 0.557}, "bds": {"mbbs": 0.96, "internship": 0.79, "vaccinator": 0.708, "bachelor": 0.702, "undergraduate": 0.697, "postgraduate": 0.694, "centralized": 0.667, "matric": 0.656, "bsc": 0.648, "curriculum": 0.645}}

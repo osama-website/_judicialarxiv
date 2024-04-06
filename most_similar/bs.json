@@ -1,1 +1,1 @@
-{"bsc": ["bachelor", "masters", "ba", "graduation", "beng", "matric", "postgraduate", "mbbs", "bds", "num"]}
+{"bsc": {"bachelor": 0.749, "graduation": 0.702, "diploma": 0.702, "ba": 0.699, "postgraduate": 0.697, "masters": 0.681, "matric": 0.677, "mbbs": 0.666, "bds": 0.648, "pimsat": 0.637}}

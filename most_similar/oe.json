@@ -1,1 +1,1 @@
-{"oecd": ["mc", "commentary", "edn", "vol", "lexisnexis", "migratory", "france", "oxford", "vogel", "convention"]}
+{"oecd": {"mc": 0.873, "commentary": 0.606, "convention": 0.603, "vol": 0.578, "italy": 0.571, "ucp": 0.561, "edn": 0.556, "fr": 0.548, "treaty": 0.548, "encyclopedia": 0.537}}

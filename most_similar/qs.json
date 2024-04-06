@@ -1,1 +1,1 @@
-{"qso": ["qanun", "ppo", "aoa", "aa", "ucp", "shahadat", "qanoon", "subparagraph", "iccpr", "dowry"]}
+{"qso": {"ucp": 0.768, "qanun": 0.736, "ppo": 0.713, "qanoon": 0.676, "aa": 0.676, "shahadat": 0.657, "subparagraph": 0.641, "aoa": 0.641, "ibid": 0.632, "iccpr": 0.627}}

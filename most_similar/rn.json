@@ -1,1 +1,1 @@
-{"rnc": ["motion", "na", "vote", "mdcat", "confidence", "cpla", "counting", "rfa", "recounting", "defector"]}
+{"rnc": {"motion": 0.572, "na": 0.459, "resolution": 0.452, "vote": 0.428, "assembly": 0.426, "limine": 0.411, "encadrement": 0.404, "confidence": 0.402, "ruling": 0.401, "candidature": 0.391}}

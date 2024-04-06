@@ -1,1 +1,1 @@
-{"bps": ["grade", "junior", "pas", "bs", "psp", "stenographer", "cadre", "encadre", "batch", "rank"], "bpsc": ["nspp", "bm", "skaa", "formulating", "phe", "faire", "fountainhead", "xxxii", "sas", "mali"]}
+{"bps": {"grade": 0.729, "junior": 0.71, "rank": 0.683, "encadre": 0.665, "bs": 0.659, "stenographer": 0.658, "lecturer": 0.645, "officiate": 0.63, "absorb": 0.613, "psp": 0.595}, "bpsc": {"nspp": 0.592, "majoritarian": 0.588, "xl": 0.566, "autocratic": 0.563, "smoothly": 0.548, "ppra": 0.542, "ddma": 0.539, "thereund": 0.538, "exhaustiveness": 0.537, "formulating": 0.535}}

@@ -1,1 +1,1 @@
-{"jpmc": ["nicvd", "ahmedabad", "jacobabad", "nich", "lasbella", "kundian", "bowling", "nahar", "mangla", "kashmore"], "jpca": ["nescoll", "nielsen", "messr", "efg", "ncl", "flagship", "nescol", "unicon", "pvt", "minerva"]}
+{"jpmc": {"nicvd": 0.766, "kundian": 0.738, "kashmore": 0.735, "matiari": 0.73, "kohlu": 0.729, "kv": 0.726, "vascular": 0.723, "ahmedabad": 0.72, "sewage": 0.719, "rohri": 0.719}, "jpca": {"nescol": 0.72, "nescoll": 0.719, "nielsen": 0.716, "pvt": 0.707, "minerva": 0.676, "efg": 0.675, "marker": 0.673, "tech": 0.667, "ghee": 0.667, "foods": 0.662}}

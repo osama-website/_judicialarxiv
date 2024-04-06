@@ -1,1 +1,1 @@
-{"mrs": ["ms", "dr", "sh", "kh", "ch", "faisal", "mr", "husain", "syed", "malik"], "mrc": ["mhz", "hrm", "propane", "comdr", "jand", "beixin", "eshaq", "ki", "lass", "rakkar"]}
+{"mrs": {"ms": 0.725, "dr": 0.679, "kh": 0.643, "sh": 0.626, "ch": 0.614, "husain": 0.593, "zulf": 0.589, "mst": 0.565, "brig": 0.564, "hafeezullah": 0.555}, "mrc": {"oct": 0.761, "mla": 0.741, "mirpurkhas": 0.739, "mpnr": 0.737, "div": 0.731, "masool": 0.725, "dahrki": 0.721, "warming": 0.718, "rakkar": 0.717, "khatooni": 0.717}}

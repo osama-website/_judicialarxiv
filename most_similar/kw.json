@@ -1,1 +1,1 @@
-{"kwh": ["usd", "ton", "kg", "metric", "rfo", "sq", "average", "paisa", "karkey", "estimate"], "kwsb": ["weaving", "mallah", "raju", "kpt", "khail", "feeder", "darakhshan", "kaira", "kaloo", "zong"]}
+{"kwh": {"ton": 0.854, "usd": 0.848, "metric": 0.814, "kg": 0.767, "rfo": 0.767, "mw": 0.766, "paisa": 0.756, "average": 0.752, "estimate": 0.752, "megawatt": 0.746}, "kwsb": {"gah": 0.817, "mallah": 0.812, "dat": 0.812, "manzil": 0.812, "wassan": 0.812, "raju": 0.811, "khail": 0.808, "asgher": 0.808, "catchment": 0.807, "nandla": 0.806}}

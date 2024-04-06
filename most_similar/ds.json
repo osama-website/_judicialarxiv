@@ -1,1 +1,1 @@
-{"dsp": ["asi", "sp", "risaldar", "sepoy", "ssp", "officiate", "constable", "mukhtiarkar", "si", "superintendent"], "dsc": ["kppsc", "parcha", "lx", "jazz", "hundi", "unitedly", "hcjp", "scra", "suba", "samdani"]}
+{"dsp": {"asi": 0.768, "sepoy": 0.756, "sp": 0.753, "officiate": 0.73, "ssp": 0.717, "si": 0.691, "mukhtiarkar": 0.682, "constable": 0.681, "inspector": 0.679, "clerk": 0.658}, "dsc": {"dor": 0.678, "kppsc": 0.672, "jazz": 0.642, "google": 0.635, "bnp": 0.633, "kaira": 0.626, "mullen": 0.623, "raman": 0.617, "tehsin": 0.615, "ds": 0.613}}

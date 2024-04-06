@@ -1,1 +1,1 @@
-{"bmcr": ["bmr", "ppra", "rule", "regulation", "xxi", "laa", "fera", "art", "statute", "psta"], "bmr": ["bmcr", "sop", "regulation", "mlr", "rule", "chejva", "laa", "xxi", "prudential", "xxxvii"]}
+{"bmcr": {"bmr": 0.616, "ppra": 0.6, "rule": 0.596, "regulation": 0.589, "xxi": 0.558, "cdao": 0.552, "cpc": 0.537, "statute": 0.536, "statutory": 0.536, "fera": 0.533}, "bmr": {"bmcr": 0.616, "ppra": 0.581, "lda": 0.542, "xxi": 0.541, "sop": 0.528, "mlr": 0.528, "regulation": 0.524, "xiii": 0.519, "rule": 0.519, "sro": 0.517}}

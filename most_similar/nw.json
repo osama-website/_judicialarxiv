@@ -1,1 +1,1 @@
-{"nwfp": ["kpk", "khyber", "baluchistan", "frontier", "kp", "punjab", "pakhtunkhwa", "north", "balochistan", "pukhtunkhwa"]}
+{"nwfp": {"kpk": 0.867, "punjab": 0.786, "baluchistan": 0.78, "khyber": 0.776, "kp": 0.744, "frontier": 0.74, "pakhtunkhwa": 0.714, "balochistan": 0.709, "north": 0.684, "pukhtunkhwa": 0.667}}

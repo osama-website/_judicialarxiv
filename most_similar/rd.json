@@ -1,1 +1,1 @@
-{"rda": ["sohbatpur", "sehwan", "surjani", "kcr", "shahi", "sambu", "gwadar", "tcp", "wah", "feeder"], "rdmc": ["bahuman", "beixin", "utman", "bozdar", "sibnath", "bhalwal", "lion", "supl", "gatron", "telenor"]}
+{"rda": {"tcp": 0.756, "cbc": 0.73, "siu": 0.698, "slic": 0.697, "garhi": 0.691, "syedan": 0.69, "khi": 0.684, "gymnasium": 0.682, "kth": 0.682, "jica": 0.682}, "rdmc": {"catchment": 0.847, "sci": 0.846, "zong": 0.845, "bahuman": 0.844, "prem": 0.843, "gymnasium": 0.841, "bhalwal": 0.839, "sambu": 0.835, "garhi": 0.834, "gatron": 0.833}}

@@ -1,1 +1,1 @@
-{"lng": ["lpg", "pipeline", "storage", "extraction", "locally", "film", "fertilizer", "urea", "oil", "iran"]}
+{"lng": {"pipeline": 0.743, "extraction": 0.743, "oil": 0.722, "lpg": 0.72, "transformer": 0.718, "poultry": 0.717, "urea": 0.703, "tractor": 0.699, "terminal": 0.696, "fertilizer": 0.695}}

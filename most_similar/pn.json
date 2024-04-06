@@ -1,1 +1,1 @@
-{"pnac": ["ophthalmology", "dean", "sciences", "accreditation", "iso", "cpsp", "curriculum", "architect", "engineering", "accredit"], "pnn": ["ja", "arfat", "ak", "lass", "zong", "mah", "wattoo", "rakkar", "dat", "ki"]}
+{"pnac": {"iso": 0.68, "cpsp": 0.667, "ndma": 0.653, "jica": 0.638, "engg": 0.634, "shar": 0.629, "pattan": 0.623, "paec": 0.62, "tex": 0.619, "standardization": 0.617}, "pnn": {"shajra": 0.854, "ak": 0.849, "rakkar": 0.833, "pq": 0.827, "aks": 0.826, "nasira": 0.823, "hrm": 0.821, "mallah": 0.817, "lass": 0.817, "temuri": 0.816}}

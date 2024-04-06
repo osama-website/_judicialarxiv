@@ -1,1 +1,1 @@
-{"ewca": ["civ", "rae", "utman", "nixon", "carter", "ganga", "lee", "anr", "suppl", "pdk"], "ewhc": ["sussex", "shaheedi", "suppl", "bai", "samoo", "sukh", "mysore", "mia", "krishan", "anr"]}
+{"ewca": {"civ": 0.955, "pandey": 0.906, "chaytor": 0.893, "narayan": 0.891, "jibendra": 0.885, "hurra": 0.885, "carter": 0.883, "prem": 0.882, "nixon": 0.881, "indra": 0.881}, "ewhc": {"comm": 0.81, "prem": 0.805, "spinner": 0.801, "swamiar": 0.793, "fop": 0.793, "bisvil": 0.791, "abbott": 0.79, "shamuna": 0.787, "baker": 0.786, "jr": 0.786}}

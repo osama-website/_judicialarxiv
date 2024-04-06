@@ -1,1 +1,1 @@
-{"mda": ["cda", "etpb", "caa", "bda", "npf", "cantonment", "kda", "management", "kmc", "dha"], "mdcat": ["exam", "balloting", "interview", "mora", "census", "css", "objectivity", "fpoe", "protocol", "deadline"]}
+{"mda": {"cda": 0.702, "etpb": 0.643, "bda": 0.538, "gob": 0.534, "caa": 0.521, "bahria": 0.52, "land": 0.512, "cantonment": 0.505, "npf": 0.498, "dha": 0.497}, "mdcat": {"exam": 0.576, "fpsc": 0.572, "seminar": 0.535, "curriculum": 0.533, "census": 0.507, "icb": 0.503, "ptb": 0.495, "realistic": 0.491, "systematic": 0.488, "rfp": 0.486}}
