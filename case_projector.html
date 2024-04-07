@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecting Judgements</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0; /* Remove default margin */
+            overflow: hidden; /* Hide overflow to prevent scrollbars */
+        }
+        canvas {
+            display: block; /* Ensure canvas covers entire window */
+        }
+        .navbar-text {
+        font-size: 20px; /* Adjust the font size as needed */
+        }
+    </style>
+    <link rel="icon" href="blank.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Judicial arXiv is an experimental search engine for the judgements of the Supreme Court of Pakistan.">
+	<meta name="keywords" content="Supreme Court of Pakistan">
+	<meta  property="og:description" content="Judicial arXiv is an experimental search engine for the judgements of the Supreme Court of Pakistan.">
+	<meta property="og:title" content="Judicial arXiv"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>	
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" href="bsstylesheet.css">
+	<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/bsstylesheet.css">
+	
+</head>
+<body>
+    		<!--Navigation bar-->
+		<div id="navbar">
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #00401A">
+
+			  <div class="container">
+				<a class="navbar-brand" style="color: #FFFFFF" href="http://osamakhalid.org/home.html">
+					Osama Khalid
+				</a>
+            <!-- Add the text "Judicial Projections" in the center -->
+            <a class="navbar-brand mx-auto" style="color: #FFFFFF"  href="https://osamakhalid.org/judicialarxiv.html">
+                Judicial Projections
+            </a>
+			  </div>
+			</nav>
+
+
+		</div>
+		<!--end of Navigation bar-->
+    <canvas id="myCanvas"></canvas>
+    <script>
+        
+        function multiplyMatrix(mat1, mat2) {
+            let result = [];
+            for (let i = 0; i < mat1.length; i++) {
+                let temp = [];
+                let a = 0;
+                while (a < mat2[0].length) {
+                    let sum = 0;
+                    for (let b = 0; b < mat1[0].length; b++) {
+                        sum += mat1[i][b] * mat2[b][a];
+                    }
+                    temp.push(sum);
+                    a++;
+                }
+                result.push(temp);
+            }
+            return result;
+        };
+
+        function vectorToMatrix(vec) {
+            let result = [];
+            for (let i = 0; i < vec.length; i++) {
+                result.push([vec[i]]);
+            }
+            return result;
+        }
+
+        function matrixToVector(matrix) {
+            return {
+                x: matrix[0][0],
+                y: matrix[1][0]
+            }
+        }
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const canvas = document.getElementById('myCanvas');
+        document.body.appendChild(canvas);
+        
+        canvas.width = width;
+        canvas.height = height;
+
+        const scale = 1;
+        labels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i'];
+        keys = {'a': 'https://www.google.com', 'b': 'https://www.gmail.com', 'c': 'https://www.yahoo.com', 'd': 'https://www.facebook.com', 'e': 'https://www.reddit.com', 'f': 'https://www.twitter.com', 'g': 'https://www.osamakhalid.com', 'h': 'https://www.uiowa.edu','i':'https://www.github.com'};
+        const points = [
+            [-0.5, -0.5, -0.5],
+            [0.5, -0.5, -0.5],
+            [0.5, 0.5, -0.5],
+            [-0.5, 0.5, -0.5],
+            [-0.5, -0.5, 0.5],
+            [0.5, -0.5, 0.5],
+            [0.5, 0.5, 0.5],
+            [-0.5, 0.5, 0.5],
+            [-1.5, 1.5, 1.5],
+        ];
+        const projection_matrix = [
+            [scale, 0, 0],
+            [0, scale, 0]
+        ];
+        const ctx = canvas.getContext('2d', { alpha: false });
+        function getRotationX(angle) {
+            radians = angle * Math.PI / 180;
+            return [
+                [1, 0, 0],
+                [0, Math.cos(radians), -Math.sin(radians)],
+                [0, Math.sin(radians), Math.cos(radians)]
+            ]
+        }
+        function getRotationY(angle) {
+            radians = angle * Math.PI / 180;
+            return [
+                [Math.cos(radians), 0, Math.sin(radians)],
+                [0, 1, 0],
+                [-Math.sin(radians), 0, Math.cos(radians)]
+            ]
+        }
+
+        function getRotationZ(angle) {
+            radians = angle * Math.PI / 180;
+            return [
+                [Math.cos(radians), -Math.sin(radians), 0],
+                [Math.sin(radians), Math.cos(radians), 0],
+                [0, 0, 1]
+            ]
+        }
+        function calculateProjection() {
+            let result = [];
+            for (let i = 0; i < points.length; i++) {
+                rotation_matrix = multiplyMatrix(getRotationX(anglex), getRotationY(angley), getRotationZ(anglez));
+                let after_rotation = multiplyMatrix(rotation_matrix, vectorToMatrix(points[i]));
+                projection = multiplyMatrix(projection_matrix, after_rotation);
+                result.push(matrixToVector(projection));
+            }
+            return (result)
+        }
+
+        function calculateProjectionAndLabels() {
+            let result = [];
+            for (let i = 0; i < points.length; i++) {
+                rotation_matrix = multiplyMatrix(getRotationX(anglex), getRotationY(angley), getRotationZ(anglez));
+                let after_rotation = multiplyMatrix(rotation_matrix, vectorToMatrix(points[i]));
+                projection = multiplyMatrix(projection_matrix, after_rotation);
+                let projectedPoint = matrixToVector(projection);
+                result.push({ point: projectedPoint, label: labels[i] });
+            }
+            return result;
+        }
+
+        function drawPointAndLabel(p, label) {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            ctx.fillRect(p.x * 100 + centerX, p.y * 100 + centerY, 5, 5);
+            if (isMouseOverPoint(p)) {
+                ctx.font = '16px Arial'; // Set the font size and type
+                ctx.fillText(label, p.x * 100 + (centerX+10), p.y * 100 + (centerY+10));
+                console.log(label, p.x * 100 + (centerX+10), p.y * 100 + (centerY+10))
+            }
+        }
+
+        canvas.addEventListener('click', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    for (let i = 0; i < projection_data.length; i++) {
+        const { point, label } = projection_data[i];
+        const pointX = point.x * 100 + centerX;
+        const pointY = point.y * 100 + centerY;
+        
+        if (
+            mouseX >= pointX &&
+            mouseX <= pointX + 25 &&
+            mouseY >= pointY &&
+            mouseY <= pointY + 25
+        ) {
+            const url = keys[label];
+            if (url) {
+                window.open(url, '_blank');
+            }
+            break;
+        }
+    }
+});
+        window.addEventListener('resize', handleResize);
+        function handleResize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            draw(); // Redraw canvas after resize
+        }
+
+        function isMouseOverPoint(point) {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            return (
+                mouseX >= (point.x * 100 + centerX) &&
+                mouseX <= (point.x * 100 + centerX + 25) &&
+                mouseY >= (point.y * 100 + centerY) &&
+                mouseY <= (point.y * 100 + centerY + 25)
+            );
+        }
+
+        ctx.fillStyle = 'white';
+        anglex = 0;
+        angley = 0;
+        anglez = 0;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+        });
+
+        function animationLoop() {
+            let isMouseDown = false;
+            let startX = 0;
+            let startY = 0;
+
+            canvas.addEventListener('mousedown', (event) => {
+                isMouseDown = true;
+                startX = event.clientX;
+                startY = event.clientY;
+            });
+
+            canvas.addEventListener('mousemove', (event) => {
+                if (isMouseDown) {
+                    const deltaX = event.clientX - startX;
+                    const deltaY = event.clientY - startY;
+                    anglex = (anglex + deltaY * 0.1) % (360);  // Adjust the sensitivity as needed
+                    startX = event.clientX;
+
+                    // Correction made here
+                    angley += (deltaX * 0.2) % (360); // Adjust the sensitivity as needed
+                    startY = event.clientY;
+
+                    //const deltaZ = deltaX * 0.3; // Adjust the sensitivity as needed
+                    //anglez += deltaZ;
+                }
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+            ctx.clearRect(0, 0, width, height);
+
+            //anglex += 1
+            //angley += 1
+            projection_data = calculateProjectionAndLabels();
+            for (let i = 0; i < projection_data.length; i++) {
+                const { point, label } = projection_data[i];
+                drawPointAndLabel(point, label);
+            }
+            requestAnimationFrame(animationLoop);
+        }
+        animationLoop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Projection in HTML Canvas</title>
+<style>
+    canvas {
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+<canvas id="myCanvas" width="400" height="400"></canvas>
+<script>
+    const points = [ // Example list of points in space
+        [0, 0, 0],
+        [50, 50, 50],
+        [100, 100, 100],
+        [150, 150, 150]
+    ];
+
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function project3DPoint(point) {
+        const fov = 500; // Field of view
+        const scale = fov / (fov + point[2]);
+        const x = canvas.width / 2 + point[0] * scale;
+        const y = canvas.height / 2 + point[1] * scale;
+        return [x, y];
+    }
+
+    function drawPoints() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'blue';
+        for (const point of points) {
+            const [x, y] = project3DPoint(point);
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
