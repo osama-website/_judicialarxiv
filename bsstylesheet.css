@@ -1,0 +1,36 @@
+/*body { background: #303030 !important; }
+*/
+li{
+  margin: 15px 0;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1200px; /* or 950px */
+  }
+
+.jumbotron{
+padding:0px 0px 20px 0px;
+margin-bottom:15px;
+
+}
+
+/* set a max-width for horizontal fluid layout and make it centered */
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1600px; /* or 950px */
+}
+
+.img-responsive {
+   max-width: 100%;
+ }
+
+
+.img-responsive {
+   max-width: 90%;
+ }
+}
+
+

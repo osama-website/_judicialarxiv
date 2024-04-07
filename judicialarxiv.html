@@ -3,6 +3,15 @@
 <!doctype html>
 <html lang="en">
   <head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-JY9D5RL6RG"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-JY9D5RL6RG');
+	</script>
   	<link rel="icon" href="blank.ico">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,7 +58,7 @@
 		</div>
 		<div class="row  justify-content-center mt-2">
 			<div class="col-md-5 text-center">
-				<h5 class="text-center"><b>Judicial arXiv</b> is a semantic search engine for the judgements of the<a target="_blank" href="https://www.supremecourt.gov.pk/judgement-search/"> Supreme Court of Pakistan</a>.</h5>
+				<h5 class="text-center">a semantic search engine for the judgements of the<br><a target="_blank" href="https://www.supremecourt.gov.pk/judgement-search/"> Supreme Court of Pakistan</a>.</h5>
 				<h6 class="text-center">Currently covering: 2002-2024</h6>
 				<h6 class="text-center">[For Research Purposes Only]</h6>
 			</div>
@@ -57,7 +66,7 @@
 	
 		<div class="row  justify-content-center mt-3">
 			<div class="col-md-6 text-center">
-				<p class="text-center"><b>Note:</b> For feedback please contact <a target="_blank" href="https://twitte</div>r.com/osamakhalyd">me</a></p>
+				<p class="text-center"><b>Note:</b> For feedback please contact <a target="_blank" href="https://twitter.com/osamakhalyd">me</a></p>
 			</div>
 		</div>
 		
@@ -90,7 +99,7 @@
 			</div>
 		</div>
 		
-		<div class="row  justify-content-center mt-5">
+		<div class="row">
 			<div class="col-md-10 text-center">		
 				<div id="display_table">
 				</div>
@@ -98,7 +107,7 @@
 		</div>
 	
 <script>
-window.addEventListener('load', get_tags);
+window.addEventListener('load', load_up);
 globalThis.lemma_map = {}
 globalThis.stemmer = {}
 globalThis.similar_words = {}
@@ -112,6 +121,27 @@ intersectSets = (a, b) => {
     return c;
 };
 
+
+				
+function load_up(){
+	get_cases();
+	get_tags();
+	get_similarity();
+}
+
+function get_similarity(){
+	
+	var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/similarity_scores.json'
+	var allText= httpGet(url);
+	var allJSON=JSON.parse(allText);
+	globalThis.similar_case = allJSON;
+}
+function get_cases(){
+	var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/cases.json'
+	var allText= httpGet(url);
+	var allJSON=JSON.parse(allText);
+	globalThis.case_info = allJSON;
+}
 function get_tags(){
 	var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tags.json'
 	var allText= httpGet(url);
@@ -220,7 +250,7 @@ function search_word(elem){
 	
 	recommendations(recommended_words)
     ranking = ranked_lookup(stemmed_words);
-	console.log(ranking)
+	//console.log(ranking)
 	sorting_button = document.getElementById("sorting_button")
 	sorting_button.innerHTML = ''
 	
@@ -270,8 +300,10 @@ function display_default(ranking, ordering){
 	var sorting_order = {"default":0, "oldest":2, "newest":1}
 	table_div = document.getElementById("display_table")
 	table_div.innerHTML = ''
-
+	
 	var display_table = document.createElement('table');
+	display_table.setAttribute("class", "table");
+
 
 	let table_head = ["Rank", "Case Subject","Case No.","Case Title","Author Judge","Judgement Date", "Pages", "Tags", "Similar Cases"];
 	
@@ -280,13 +312,14 @@ function display_default(ranking, ordering){
 	let row = thead.insertRow();
 	for (let i = 0; i < table_head.length; i++) {
 		let th = document.createElement("th");
+
 		let text = document.createTextNode(table_head[i]);
 			th.appendChild(text);
 			row.appendChild(th);
 	}
-	console.log(display_table)
+	//console.log(display_table)
 	ranking_index = sorting_order[ordering]
-	console.log(ranking_index)
+	//console.log(ranking_index)
 
     for (i=0;i<Math.min(ranking[ranking_index].length, 1000);i++){
 		//RANK
@@ -330,10 +363,10 @@ function display_default(ranking, ordering){
 		//case pages
 		case_id = ranking[ranking_index][i][0]
 		pages = ranking[3][case_id]
-		console.log(pages)
+		//console.log(pages)
 		url = case_url = 'https://www.supremecourt.gov.pk/downloads_judgements/'
 		let page_cell = row.insertCell();
-        for (k=0;k< pages.length; k++){
+        for (k=0;k< Math.min(pages.length,10); k++){
 			let page_text = document.createElement('a');
 			page_url = url+case_id+'#page='+pages[k]
 			page_text.setAttribute('href', page_url); 
@@ -346,7 +379,7 @@ function display_default(ranking, ordering){
 
 		
 		tags_set = globalThis.tags[case_id]
-		console.log(case_id,tags_set)
+		//console.log(case_id,tags_set)
 
 		let tag_cell = row.insertCell();
 		if (typeof tags_set !== 'undefined'){
@@ -367,19 +400,23 @@ function display_default(ranking, ordering){
 			tag_cell.appendChild(tag_text);
 			
 		}
+		let similar_cell = row.insertCell();
 		similar_set = globalThis.similar_case[ranking[ranking_index][i][0]]
 		similar_set_sort = sortObj(similar_set)
-		similar_set_sort = similar_set_sort.slice(0, 5)
-		
 		//console.log(similar_set_sort)
-		let similar_cell = row.insertCell();
-		
 		for (k=0;k< Math.min(similar_set_sort.length,5); k++){
 			case_hist = similar_set_sort[k][0]
-			console.log(case_hist)
+			case_url = 'https://www.supremecourt.gov.pk/downloads_judgements/'+case_hist
+			var similar_text = document.createElement('a');
+			similar_text.setAttribute('href', case_url);
+			similar_text.setAttribute('target', '_blank'); // Added target="_blank"
+			similar_text.textContent = globalThis.case_info[case_hist]['caseNumber']
+			similar_cell.appendChild(similar_text);
+
+			let space = document.createTextNode(" ");
+			similar_cell.appendChild(space);
 		
 		}
-	
 
 		
     }
@@ -442,23 +479,7 @@ function ranked_lookup(words){
 		}
 		else{
 			case_hist = sorted_relevance[i][0]
-			if (case_hist in globalThis.case_info) {
-			
-			} else {
-			
-				var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/similarity_scores/'+case_hist+'.json';
-				var allText= httpGet(url);
-				var allJSON=JSON.parse(allText);
-				globalThis.similar_case[case_hist] = allJSON;
 
-				var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/cases/'+case_hist+'.json';
-				var allText= httpGet(url);
-				var allJSON=JSON.parse(allText);
-				globalThis.case_info[case_hist] = allJSON;
-
-				
-			
-			}	
 			
 			rank_default.push(sorted_relevance[i])
 			valid_cases.push(sorted_relevance[i][0])
