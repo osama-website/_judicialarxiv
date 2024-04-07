@@ -14,7 +14,7 @@
 	<meta property="og:image:height" content="627"/>	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" href="bsstylesheet.css">
 	<link rel="stylesheet" type="text/css" href="http://www.visitednationalparks.com/bsstylesheet.css">
-	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/p_counter.json' as="document">
+	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tags.json' as="document">
 	
 	
 	
@@ -98,7 +98,7 @@
 		</div>
 	
 <script>
-
+window.addEventListener('load', get_tags);
 globalThis.lemma_map = {}
 globalThis.stemmer = {}
 globalThis.similar_words = {}
@@ -112,6 +112,12 @@ intersectSets = (a, b) => {
     return c;
 };
 
+function get_tags(){
+	var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tags.json'
+	var allText= httpGet(url);
+	var allJSON=JSON.parse(allText);
+	globalThis.tags = allJSON;
+}
 function sortObj(obj) {
     // Sort object as list based on values
     return Object.keys(obj).map(k => ([k, obj[k]])).sort((a, b) => (b[1] - a[1]))
@@ -450,10 +456,7 @@ function ranked_lookup(words){
 				var allJSON=JSON.parse(allText);
 				globalThis.case_info[case_hist] = allJSON;
 
-				var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tags/'+case_hist+'.json'
-				var allText= httpGet(url);
-				var allJSON=JSON.parse(allText);
-				globalThis.tags[case_hist] = allJSON;
+				
 			
 			}	
 			
