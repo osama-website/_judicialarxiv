@@ -6,33 +6,30 @@
   	<link rel="icon" href="blank.ico">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="National arXiv is an experimental search engine for the National Assembly Debates archives of Pakistan.">
-	<meta name="keywords" content="National Assembly of Pakistan">
-	<meta  property="og:description" content="National arXiv is an experimental search engine for the National Assembly Debates archives of Pakistan.">
-	<meta property="og:title" content="National arXiv"/>
+	<meta name="description" content="Judicial arXiv is a semantic search engine for the judgements of the Supreme Court of Pakistan.">
+	<meta name="keywords" content="Supreme Court of Pakistan">
+	<meta  property="og:description" content="Judicial arXiv is a semantic search engine for the judgements of the Supreme Court of Pakistan.">
+	<meta property="og:title" content="Judicial arXiv"/>
 	<meta property="og:image:width" content="1200"/>
 	<meta property="og:image:height" content="627"/>	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" href="bsstylesheet.css">
 	<link rel="stylesheet" type="text/css" href="http://www.visitednationalparks.com/bsstylesheet.css">
 	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/p_counter.json' as="document">
-	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_words/main/date_mapping.json' as="document">
-	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/tag_list.json' as="document">
-	<link rel="prefetch" href='https://raw.githubusercontent.com/osama-website/_NA_stats/main/similarity_scores_.json' as="document">
 	
 	
 	
 	
-    <title>National arXiv</title>
+    <title>Judicial arXiv</title>
   </head>
   <body  class="pt-5">
 
 
 		<!--Navigation bar-->
 		<div id="navbar">
-			<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #FFCD00">
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #00401A">
 
 			  <div class="container">
-				<a class="navbar-brand" style="color: #000000" href="http://osamakhalid.org/home.html">
+				<a class="navbar-brand" style="color: #FFFFFF" href="http://osamakhalid.org/home.html">
 					Osama Khalid
 				</a>
 
@@ -47,38 +44,47 @@
 	<div class="jumbotron">
 		<div class="row  justify-content-center mt-5">
 			<div class="col-md-6 text-center">
-				<h1 class="text-center">National arXiv</h1>
+				<h1 class="text-center">Judicial arXiv</h1>
 			</div>
 		</div>
 		<div class="row  justify-content-center mt-2">
 			<div class="col-md-5 text-center">
-				<h5 class="text-center"><b>National arXiv</b> is an experimental search engine for the <a target="_blank" href="https://na.gov.pk/en/debates.php">National Assembly</a> Debates archives of Pakistan.</h5>
-				<h6 class="text-center">Currently covering: 1947-2022</h6>
+				<h5 class="text-center"><b>Judicial arXiv</b> is a semantic search engine for the judgements of the<a target="_blank" href="https://www.supremecourt.gov.pk/judgement-search/"> Supreme Court of Pakistan</a>.</h5>
+				<h6 class="text-center">Currently covering: 2002-2024</h6>
+				<h6 class="text-center">[For Research Purposes Only]</h6>
 			</div>
 		</div>
 	
 		<div class="row  justify-content-center mt-3">
 			<div class="col-md-6 text-center">
-				<p class="text-center"><b>Note:</b> For feedback please contact <a target="_blank" href="https://twitter.com/osamakhalyd">me</a></p>
+				<p class="text-center"><b>Note:</b> For feedback please contact <a target="_blank" href="https://twitte</div>r.com/osamakhalyd">me</a></p>
 			</div>
 		</div>
 		
+
+
 		<div class="row  justify-content-center mt-5">
 			<div class="col-md-4 text-center">
 				<div class="input-group">
-				  <input type="search" id="token" class="form-control rounded" placeholder="Search"  onclick="search_word(value)"/>
-				  <label for="token"  class="btn btn-outline-primary">Look Up</label>
+				  <input type="search" id="token" class="form-control rounded" placeholder="Search"  />
+				  
+
+				  <label for="token"  class="btn btn-outline-primary" onclick="search_word(document.getElementById('token').value)">Look Up</label>
+				  
+				  
 				</div>
 			</div>
 		</div>
-
-
 		<div class="row  justify-content-center mt-3">
 			<div class="col-md-6 text-center">
 				<p class="text-center" id="search_term"></p>
 			</div>
 		</div>
-
+		<div class="row  justify-content-center mt-3">
+			<div class="col-md-6 text-center">
+				<p class="text-center" id="recommended_terms"></p>
+			</div>
+		</div>
 		<div class="row  justify-content-center mt-5">
 			<div class="col-md-6 text-center" id="sorting_button">
 			</div>
@@ -93,12 +99,13 @@
 	
 <script>
 
-function loadData(){
-    loadMap();
-    pageMap();
-    tagMap();
-    similarityScores();
-}
+globalThis.lemma_map = {}
+globalThis.stemmer = {}
+globalThis.similar_words = {}
+globalThis.tfidf = {}
+globalThis.similar_case = {}
+globalThis.case_info = {}
+globalThis.tags = {}
 intersectSets = (a, b) => {
     const c = new Set;
     a.forEach(v => b.has(v) && c.add(v));
@@ -116,83 +123,98 @@ function httpGet(theUrl)
     xmlHttp.send( null );
     return xmlHttp.responseText;
     }
-function pageMap(){
-    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/p_counter.json';
-    pagemap = {}    
-    var allText= httpGet(url);
-    var allJSON=JSON.parse(allText);
-    for (item in allJSON){
-        if (typeof item !== 'undefined') {
-            pagemap[item]=allJSON[item]
-        }
-    }
-    globalThis.pagemap = pagemap;
 
+
+
+function recommendations(recommended_words){
+	const  word_similarity= {};
+	
+	for (i=0;i<recommended_words.length;i++){
+		for (item in recommended_words[i]){
+			if (!(item in word_similarity)) {
+   				word_similarity[item] = recommended_words[i][item];
+			}else{
+				word_similarity[item] = word_similarity[item] + recommended_words[i][item];
+			}
+		}
+	}
+	var recommendations = document.getElementById("recommended_terms");
+	recommendations.innerHTML = '<b>Related Terms: </b>'
+	sorted = sortObj(word_similarity)
+	for (i=0;i<Math.min(sorted.length, 10);i++){
+		if (sorted[i][1]>0){
+			var word = sorted[i][0]
+			var button = document.createElement("a");
+			button.setAttribute("href", "#");
+			button.setAttribute("onclick", 'search_word('+"'"+word+"'"+')');    
+			button.textContent = word;
+			recommendations.appendChild(button)
+			recommendations.appendChild(document.createTextNode(" "));	
+			if ((i) % 7 == 6) {
+				recommendations.appendChild(document.createElement("br"));	
+			}
+
+		}
+	}
 }
-
-function tagMap(){
-    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/tag_list.json';
-    tagmap = {}    
-    var allText= httpGet(url);
-    var allJSON=JSON.parse(allText);
-    for (item in allJSON){
-        if (typeof item !== 'undefined') {
-            tagmap[item.replace('Augus','August').replace('Marc','March')]=allJSON[item]
-        }
-    }
-    globalThis.tagmap = tagmap;
-
-}
-
-
-
-function similarityScores(){
-    var url='https://raw.githubusercontent.com/osama-website/_NA_stats/main/similarity_scores_.json';
-    similarity_score = {}    
-    var allText= httpGet(url);
-    var allJSON=JSON.parse(allText);
-    for (item in allJSON){
-        if (typeof item !== 'undefined') {
-            similar_list = []
-            for (value in allJSON[item])
-            {
-                session = allJSON[item][value][0]
-                session_new = session.replace('Augus','August').replace('Marc','March')
-                url = mapping[session_new]
-                similar_list.push([session_new,url])
-            }
-            similarity_score[item.replace('Augus','August').replace('Marc','March')]=similar_list
-        }
-    }
-    globalThis.similarity_score = similarity_score;
-
-}
-
-function loadMap(){
-    var url='https://raw.githubusercontent.com/osama-website/_NA_words/main/date_mapping.json';
-    mapping = {}    
-    var allText= httpGet(url);
-    var allJSON=JSON.parse(allText);
-    for (item in allJSON){
-        if (typeof item !== 'undefined') {
-            mapping[item]=allJSON[item]
-        }
-    }
-    globalThis.mapping = mapping;
-    //return mapping
-}
-
 function search_word(elem){
     if(elem.length == 0){
 		return
 	}
-    words = words = elem.toLowerCase().split(' ')
+	
+	words = elem.toLowerCase().split(' ').map(word => word.trim()).filter(word => word !== '');
+    words = new Set(words);
+    words = Array.from(words);
+	
     document.getElementById("search_term").innerHTML="Showing Results for:"+"<b> "+elem+"</b>"
     document.getElementById("token").value=elem
+	
+	var lemma_set = [];
+	
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i];
+		const lemma = word.substring(0, 2);
+		lemma_set.push(lemma);
+	}
+    lemma_set = new Set(lemma_set);
+	lemma_set = Array.from(lemma_set);
 
-    stemmed_words = stemmer(words);
+	for (let i=0;i<lemma_set.length;i++){
+		lemma = lemma_set[i]
+		if (lemma in globalThis.lemma_map) {
+			
+		} else {
+			var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/lemma_map/'+lemma+'.json';
+			var allText= httpGet(url);
+			if (allText) {
+				_json = JSON.parse(allText)
+				globalThis.lemma_map[lemma] = _json;
+				for (item in _json) {
+    				globalThis.stemmer[item]=_json[item];
+					}
+				var sim_url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/most_similar/'+lemma+'.json';
+				var simText= httpGet(sim_url);	
+				json_ = JSON.parse(simText)
+				globalThis.similar_words[lemma] = json_;
+				}
+		}
+	}
+	
+	recommended_words = []		
+	stemmed_words = []
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i]
+		if (word in globalThis.stemmer) {
+			const lemma = word.substring(0, 2);
+			stemmed_words.push(globalThis.stemmer[word])
+			// Get recommended words for the lemma and stemmer word
+			recommended_words.push(globalThis.similar_words[lemma][globalThis.stemmer[word]])
+		}
+	}
+	
+	recommendations(recommended_words)
     ranking = ranked_lookup(stemmed_words);
-
+	console.log(ranking)
 	sorting_button = document.getElementById("sorting_button")
 	sorting_button.innerHTML = ''
 	
@@ -210,7 +232,7 @@ function search_word(elem){
 	relevance.textContent = "Relevance";
 	relevance.onclick = function()
 	{
-		display_default(ranking, mapping, "default")
+		display_default(ranking, "default")
 	}
 	sorting_button.appendChild(relevance)
 
@@ -221,7 +243,7 @@ function search_word(elem){
 	oldest.textContent = "Oldest"; 
 	oldest.onclick = function()
 	{
-		display_default(ranking, mapping, "oldest")
+		display_default(ranking, "oldest")
 	}
 	sorting_button.appendChild(oldest)
 	
@@ -232,20 +254,20 @@ function search_word(elem){
 	newest.textContent = "Newest"; 
 	newest.onclick = function()
 	{
-		display_default(ranking, mapping, "newest")
+		display_default(ranking, "newest")
 	}
 	sorting_button.appendChild(newest)
-    display_default(ranking, mapping, "default")
+    display_default(ranking, "default")
 }
 
-function display_default(ranking, mapping, ordering){
+function display_default(ranking, ordering){
 	var sorting_order = {"default":0, "oldest":2, "newest":1}
 	table_div = document.getElementById("display_table")
 	table_div.innerHTML = ''
 
 	var display_table = document.createElement('table');
 
-	let table_head = ["Rank", "Session", "Pages", "Tags", "Similar Sessions"];
+	let table_head = ["Rank", "Case Subject","Case No.","Case Title","Author Judge","Judgement Date", "Pages", "Tags", "Similar Cases"];
 	
 	display_table.setAttribute("class", "table");
 	let thead = display_table.createTHead();
@@ -256,69 +278,103 @@ function display_default(ranking, mapping, ordering){
 			th.appendChild(text);
 			row.appendChild(th);
 	}
-
+	console.log(display_table)
 	ranking_index = sorting_order[ordering]
+	console.log(ranking_index)
+
     for (i=0;i<Math.min(ranking[ranking_index].length, 1000);i++){
-        session = ranking[ranking_index][i][0].split('\t')[0].replace('Augus','August').replace('Marc','March')
-        page = ranking[3][ranking[ranking_index][i][0]]
-  
-        page.sort((a,b) => a-b);
-        summary = 'TO-DO'
-        
-
-        url = mapping[session]
-
+		//RANK
 		let row = display_table.insertRow();
 		row.setAttribute('class',"align-top")
-
+		case_url = 'https://www.supremecourt.gov.pk/downloads_judgements/'+ranking[ranking_index][i][0]
+		//console.log(case_url)
 		let rank_cell = row.insertCell();
 		let rank_text = document.createTextNode(i+1);
 		rank_cell.appendChild(rank_text);
+		//console.log(globalThis.case_info[ranking[ranking_index][i][0]])
+		let case_sub_cell = row.insertCell();
+		let case_sub_text = document.createTextNode(globalThis.case_info[ranking[ranking_index][i][0]]['caseSubject']);
+		case_sub_cell.appendChild(case_sub_text);
 		
-		let session_cell = row.insertCell();
-	
-		var session_text = document.createElement('a');
-		session_text.setAttribute('href', url);         
-		session_text.textContent = session;    
-		session_cell.appendChild(session_text);
+		//CASE NO
+		let case_no_cell = row.insertCell();
+		
+		var case_no_text = document.createElement('a');
+		case_no_text.setAttribute('href', case_url);
+		case_no_text.setAttribute('target', '_blank'); // Added target="_blank"
+		case_no_text.textContent = globalThis.case_info[ranking[ranking_index][i][0]]['caseNumber']
+		case_no_cell.appendChild(case_no_text);
+		//case_no_cell.appendChild(case_no_text);
 
-        let page_cell = row.insertCell();
-        for (k=0;k< page.length; k++){
+		//Case Title
+		let case_title_cell = row.insertCell();
+		let case_title_text = document.createTextNode(globalThis.case_info[ranking[ranking_index][i][0]]['caseTitle']);
+		case_title_cell.appendChild(case_title_text);
+
+		//case judge
+		let case_judge_cell = row.insertCell();
+		let case_judge_text = document.createTextNode(globalThis.case_info[ranking[ranking_index][i][0]]['authorJudge']);
+		case_judge_cell.appendChild(case_judge_text);
+
+		//case date
+		let case_date_cell = row.insertCell();
+		let case_date_text = document.createTextNode(globalThis.case_info[ranking[ranking_index][i][0]]['dateCreated']);
+		case_date_cell.appendChild(case_date_text);
+
+		//case pages
+		case_id = ranking[ranking_index][i][0]
+		pages = ranking[3][case_id]
+		console.log(pages)
+		url = case_url = 'https://www.supremecourt.gov.pk/downloads_judgements/'
+		let page_cell = row.insertCell();
+        for (k=0;k< pages.length; k++){
 			let page_text = document.createElement('a');
-			page_url = url+'#page='+page[k]
-			page_text.setAttribute('href', page_url);         
-			page_text.textContent = page[k];  
+			page_url = url+case_id+'#page='+pages[k]
+			page_text.setAttribute('href', page_url); 
+			page_text.setAttribute('target', '_blank'); // Added target="_blank"        
+			page_text.textContent = pages[k];  
 			page_cell.appendChild(page_text);
 			let space = document.createTextNode(" ");
 			page_cell.appendChild(space);
         }
+
 		
-		
-        tag_session = tagmap[session]
+		tags_set = globalThis.tags[case_id]
+		console.log(case_id,tags_set)
+
 		let tag_cell = row.insertCell();
-        for (k=0;k< tag_session.length; k++){
-			let tag_session_text = document.createElement('a');
-			tag_session_text.setAttribute('href', "#");
+		if (typeof tags_set !== 'undefined'){
+			for (k=0;k< Math.min(tags_set.length,10); k++){
+
+				var tag_text = document.createElement("a");
+				tag_text.setAttribute("href", "#");
+				tag_text.setAttribute("onclick", 'search_word('+"'"+tags_set[k]+"'"+')');    
+				tag_text.textContent = tags_set[k];
 			
-			tag_session_text.setAttribute("onclick", 'search_word('+"'"+tag_session[k]+"'"+')');			
-			tag_session_text.textContent = tag_session[k];  
-			tag_cell.appendChild(tag_session_text);
-			let space = document.createTextNode(" ");
-			tag_cell.appendChild(space);
-        } 
+				tag_cell.appendChild(tag_text);
+				let space = document.createTextNode(" ");
+				tag_cell.appendChild(space);
+			}
+		}
+		else{
+			let tag_text = document.createTextNode("No Tags");
+			tag_cell.appendChild(tag_text);
+			
+		}
+		similar_set = globalThis.similar_case[ranking[ranking_index][i][0]]
+		similar_set_sort = sortObj(similar_set)
+		similar_set_sort = similar_set_sort.slice(0, 5)
+		
+		//console.log(similar_set_sort)
+		let similar_cell = row.insertCell();
+		
+		for (k=0;k< Math.min(similar_set_sort.length,5); k++){
+			case_hist = similar_set_sort[k][0]
+			console.log(case_hist)
+		
+		}
+	
 
-        similar_session = similarity_score[session]
-
-        let similar_session_cell = row.insertCell();
-        for (k=0;k<similar_session.length;k++){
-			let similar_session_text = document.createElement('a');
-			page_url = similar_session[k][1]
-			similar_session_text.setAttribute('href', page_url);         
-			similar_session_text.textContent = similar_session[k][0];  
-			similar_session_cell.appendChild(similar_session_text);
-			let space = document.createTextNode(" ");
-			similar_session_cell.appendChild(space);
-        }
 		
     }
 	table_div.appendChild(display_table)
@@ -326,103 +382,126 @@ function display_default(ranking, mapping, ordering){
 
 let pagemap={};
 function ranked_lookup(words){
-    idx_keys = []
-    for (i in words){
-        key = words[i].slice(0,3);
-        idx_keys.push(key);
-    }
-    var idx_set = new Set(idx_keys);
-    idx_set = Array.from(idx_set);
+    //console.log(words)
+	
+	relevance_score = {}
 
-
-    var idx_dict = {}
-
-    for (i in idx_set){
-        key = idx_set[i]
-        var url='https://raw.githubusercontent.com/osama-website/_NA_idx/master/'+key+'.json';
-        var allText= httpGet(url);
-        var allJSON=JSON.parse(allText);
-        for (k in words){
-            item = words[k]
-            
-            if (typeof allJSON[item] !== 'undefined') {
-                
-                json_set = []
-                for (j in allJSON[item]){
-                    date = allJSON[item][j][0]
-                    page = allJSON[item][j][1].toString()
-                    json_set.push(date+'\t'+page)
-
-                }
-                var json_set = new Set(json_set);
-                json_set = Array.from(json_set);
-                idx_dict[item] = json_set;
-            }
-        }
-    }
-
-    // Recalc total overalp page per date / pagempa[i]
-    //Intersection
-    months = {'January':'01', 'February':'02', 'Marc':'03', 'April':'04', 'May':'05', 'June':'06', 'July':'07', 'Augus':'08', 'September':'09', 'October':'10', 'November':'11', 'December':'12'}
-    ranker_rel = {}
-    ranker_chrono = {}
-
-	// Load all the data first
-    if(typeof pagemap !== 'undefined' || pagemap.length ==0 ){
-		loadData();
+	for (i in words){
+		word = words[i]
+		if (lemma in globalThis.tfidf) {
+			
+		} else {
+			
+			var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tfidf/'+word+'.json';
+			var allText= httpGet(url);
+			var allJSON=JSON.parse(allText);
+			globalThis.tfidf[word] = allJSON;
+			
+		}
+		for (var key in globalThis.tfidf[word]) {
+			relevance_score[key] = 1;
+		}
+	}
+	pageObj = {}
+	for (i in words){
+		word = words[i]
+		cases = globalThis.tfidf[word]
+		
+		for (var case_key in relevance_score){
+			if (!(case_key in pageObj)) {
+   				pageObj[case_key] = [];
+			}
+			
+			if (case_key in cases){
+				var keys = Object.keys(globalThis.tfidf[word][case_key]);
+		        for (var k in keys){
+		            pageObj[case_key].push(keys[k])
+		        }				
+				SCORE = globalThis.tfidf[word][case_key][keys[0]]
+        		SCORE = parseFloat(SCORE);
+				relevance_score[case_key] = relevance_score[case_key] * SCORE
+			}else{
+		
+				relevance_score[case_key] = relevance_score[case_key] *0
+			}
+		}
 	}
 	
-    if (words.length > 0){
-        a = new Set(idx_dict[words[0]])
-            
-        for (i = 1;i<words.length; i++){
-            b = new Set(idx_dict[words[i]])
-            a = [a,b].reduce(intersectSets);
-        }
-		intersections = Array.from(a);    
-		page_counter = {}
-		page_track = {}
-		if (intersections.length>2){
-			for (i in intersections){
-				item = intersections[i].split('\t');
-				date = item[0]
-				if (typeof page_counter[date] == 'undefined') {
-					page_counter[date] = 0
-					page_track[date] = []
-				}
-				page_track[date].push(item[1])
-				page_counter[date] = page_counter[date] + 1
-
-			}
-
-			ranker_rel = {}
-			for (date in page_counter){
-				ranker_rel[date] = page_counter[date]/pagemap[date]
-				//console.log(date,page_counter[date],pagemap[date])
-				date_ = date.split('-')
-				yr = date_[2]
-				mnt = months[date_[1]]
-				day = date_[0].substring(0,1)
-
-
-				while(day.length<2){
-					day = '0'+day
-				}
-
-				ranker_chrono[date] = yr+mnt+day
-			}
-
-			var rank_default = sortObj(ranker_rel);
-			var rank_chrono = sortObj(ranker_chrono);
-			var rank_rev_chrono = sortObj(ranker_chrono).reverse();
-			return([rank_default,rank_chrono,rank_rev_chrono,page_track])
+	//console.log(pageObj)
+	sorted_relevance = sortObj(relevance_score)
+	rank_default = []
+	valid_cases = []
+	for (i in sorted_relevance){
+		if (sorted_relevance[i][1] == 0){
 		}
-   
-    }
-    else
-    {
-        return        
-    }
+		else{
+			case_hist = sorted_relevance[i][0]
+			if (case_hist in globalThis.case_info) {
+			
+			} else {
+			
+				var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/similarity_scores/'+case_hist+'.json';
+				var allText= httpGet(url);
+				var allJSON=JSON.parse(allText);
+				globalThis.similar_case[case_hist] = allJSON;
+
+				var url='https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/cases/'+case_hist+'.json';
+				var allText= httpGet(url);
+				var allJSON=JSON.parse(allText);
+				globalThis.case_info[case_hist] = allJSON;
+
+				var url = 'https://raw.githubusercontent.com/osama-website/_judicialarxiv/master/tags/'+case_hist+'.json'
+				var allText= httpGet(url);
+				var allJSON=JSON.parse(allText);
+				globalThis.tags[case_hist] = allJSON;
+			
+			}	
+			
+			rank_default.push(sorted_relevance[i])
+			valid_cases.push(sorted_relevance[i][0])
+		}
+	}
+	//console.log(valid_cases)
+	rel_page = {}
+	
+	for (page in pageObj){
+		
+		if (valid_cases.includes(page)){
+			//console.log(page)
+			page_set = pageObj[page]
+			page_set = new Set(page_set);
+			page_set = Array.from(page_set);
+
+			rel_page[page] = page_set
+		}
+	}
+	//rank_default
+	//rel_page
+	dates = {}
+	for (i in rank_default){
+		 dateObj = globalThis.case_info[rank_default[i][0]]['dateCreated']
+		const dateParts = dateObj.split('-');
+		const day = parseInt(dateParts[0]);
+		const month = parseInt(dateParts[1]) - 1; // months are zero-based
+		const year = parseInt(dateParts[2]);
+		const datetimeObj = new Date(year, month, day);
+				
+		 dates[rank_default[i][0]] = datetimeObj
+	}
+	//console.log(rel_page)
+	rank_oldest = []
+
+	rank_new = sortObj(dates)
+		
+	for (let i = rank_new.length - 1; i >= 0; i--) {
+		const item = rank_new[i];
+			rank_oldest.push(item)
+	}
+	//console.log(rank_oldest)
+	//console.log(rank_default)
+	//console.log(rank_new)
+	return([rank_default,rank_new,rank_oldest,rel_page])
+	
     
 }
 
